@@ -6,6 +6,9 @@
 *.dylib
 bin/
 github.com/
+golang.org/
+gopkg.in/
+pkg/
 
 # Test binary, built with `go test -c`
 *.test

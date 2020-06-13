@@ -1,0 +1,11 @@
+{
+    "app_name": "CoronaTrackerGO",
+    "base_url": "http://localhost:8090",
+    "port": 8090,
+    "verbose": false,
+    "static_dir": "static",
+    "view_dir": "views",
+    "database": "sqlite3",
+    "database_conn": "CoronaTracker.db",
+    "automigrate": true
+}
