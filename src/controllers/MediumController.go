@@ -1,10 +1,9 @@
 package controllers
 
 import (
+	"models"
 	"net/http"
 	"strconv"
-
-	"../models"
 
 	"github.com/gernest/utron/controller"
 	"github.com/gorilla/schema"
@@ -68,8 +67,3 @@ func NewMediumController() controller.Controller {
 		},
 	}
 }
-
-// Registring the controller
-// func init() {
-// 	utron.RegisterController(NewMediumController())
-// }

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+        <meta charset="UTF-8">
+        <title>Find infected by Corona</title>
+        <link href="/static/todo.css" rel="stylesheet">
+    </head>
+    <body>
+        <table>
+            <tr>
+                <th>
+                    User data
+                </th>
+            </tr>
+            {{range $k,$v:=.List}}
+                <tr>
+                    <td>
+                        {{$v.ID}}
+                    </td>
+                    <td>
+                        {{$v.Name}}
+                    </td>
+                </tr>
+            {{end}}
+        </table>
+    </body>
+</html>

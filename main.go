@@ -1,12 +1,11 @@
 package main
 
 import (
+	"controllers"
 	"fmt"
 	"log"
+	"models"
 	"net/http"
-
-	"./controllers"
-	"./models"
 
 	"github.com/gernest/utron"
 )
@@ -21,12 +20,14 @@ func main() {
 
 	// Register Models
 	app.Model.Register(&models.Users{})
+	app.Model.Register(&models.Clients{})
 
 	// CReate Models tables if they dont exist yet
 	app.Model.AutoMigrateAll()
 
 	// Register Controller
 	app.AddController(controllers.NewMediumController)
+	app.AddController(controllers.NewFindInfectedControllerController)
 
 	// Start the server
 	port := fmt.Sprintf(":%d", app.Config.Port)

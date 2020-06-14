@@ -4,6 +4,7 @@ import (
 	"time"
 )
 
+// Users model for user
 type Users struct {
 	ID        int       `schema: "-"`
 	Body      string    `schema:"body"`
