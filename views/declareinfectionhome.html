@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+        <meta charset="UTF-8">
+        <title>Find infected by Corona</title>
+        <link href="/static/todo.css" rel="stylesheet">
+    </head>
+    <body>
+        <form method="post" name="postInfectionDate" id="postInfectionDate" action="/postInfectionDate">
+            <table>
+                <tr>
+                    <th>
+                        Declare the day which your test was positive
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <input name="testing_date" type="date">
+                    </td>
+                    <td>
+                        <button type="submit">Submit</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </body>
+
+    <script src="/static/scripts/declareinfectionhome.js"></script>
+
+</html>

@@ -18,10 +18,28 @@
                         {{$v.ID}}
                     </td>
                     <td>
-                        {{$v.Name}}
+                        {{$v.Time}}
+                    </td>
+                    <td>
+                        {{$v.Day}}
+                    </td>
+                    <td>
+                        {{$v.City}}
+                    </td>
+                    <td>
+                        {{$v.Xcoord}}
+                    </td>
+                    <td>
+                        {{$v.Ycoord}}
                     </td>
                 </tr>
             {{end}}
         </table>
+        <td>
+            <a id="declareinfectionhome" href="/declareinfectionhome" class="button">Declare infection</a>
+        </td>
     </body>
+
+    <script src="/static/scripts/homeuser.js"></script>
+
 </html>

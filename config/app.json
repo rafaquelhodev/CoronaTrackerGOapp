@@ -3,7 +3,7 @@
     "base_url": "http://localhost:8090",
     "port": 8090,
     "verbose": false,
-    "static_dir": "static",
+    "static_dir": "public",
     "view_dir": "views",
     "database": "sqlite3",
     "database_conn": "CoronaTracker.db",

@@ -5,6 +5,7 @@ import (
 	"models"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/gernest/utron/controller"
 )
@@ -26,16 +27,14 @@ func (t *FindInfectedController) LogIn() {
 	req := t.Ctx.Request()
 	id := req.FormValue("Id")
 
-	pathRedirect := fmt.Sprintf("/user/%s", id)
+	pathRedirect := fmt.Sprintf("/homeinfected/user/%s", id)
 	t.Ctx.Redirect(pathRedirect, http.StatusFound)
 }
 
 //HomeUser home page of a specific client
 func (t *FindInfectedController) HomeUser() {
-	// req := t.Ctx.Request()
-
-	clientID := t.Ctx.Params["id"]
-	ID, err := strconv.Atoi(clientID)
+	strclientID := t.Ctx.Params["id"]
+	clientID, err := strconv.Atoi(strclientID)
 	if err != nil {
 		t.Ctx.Data["Message"] = err.Error()
 		t.Ctx.Template = "error"
@@ -43,13 +42,51 @@ func (t *FindInfectedController) HomeUser() {
 		return
 	}
 
-	fmt.Println("user id = ", ID)
-
 	clients := []*models.Clients{}
-	t.Ctx.DB.Find(&clients).Find(&models.Clients{IDclient: ID})
+	t.Ctx.DB.Where("idclient = ?", clientID).Find(&clients)
 	t.Ctx.Data["List"] = clients
 	t.Ctx.Template = "homeuser"
 	t.HTML(http.StatusOK)
+}
+
+//DeclareInfectionHome GET -> declare infection date of a specific client
+func (t *FindInfectedController) DeclareInfectionHome() {
+	t.Ctx.Template = "declareinfectionhome"
+	t.HTML(http.StatusOK)
+}
+
+//DeclareInfection POST -> declare infection date of a specific client
+func (t *FindInfectedController) DeclareInfection() {
+	strclientID := t.Ctx.Params["id"]
+	clientID, err := strconv.Atoi(strclientID)
+	if err != nil {
+		t.Ctx.Data["Message"] = err.Error()
+		t.Ctx.Template = "error"
+		t.HTML(http.StatusInternalServerError)
+		return
+	}
+
+	infected := &models.Infecteds{}
+	req := t.Ctx.Request()
+	_ = req.ParseForm()
+
+	date := req.FormValue("testing_date")
+	dateParsed, err := time.Parse("2006-01-02", date)
+
+	// if err := decoder.Decode(infected, req.PostForm); err != nil {
+	// decoder.IgnoreUnknownKeys(true)
+	if err != nil {
+		t.Ctx.Data["Message"] = err.Error()
+		t.Ctx.Template = "error"
+		t.HTML(http.StatusInternalServerError)
+		return
+	}
+	infected.TestingDate = dateParsed
+	infected.IDclient = clientID
+	t.Ctx.DB.Create(infected)
+
+	pathRedirect := fmt.Sprintf("/homeinfected/user/%d", clientID)
+	t.Ctx.Redirect(pathRedirect, http.StatusFound)
 }
 
 //NewFindInfectedControllerController returns a new FindInfectedController
@@ -59,7 +96,9 @@ func NewFindInfectedControllerController() controller.Controller {
 		Routes: []string{
 			"get;/homeinfected;Home",
 			"post;/finduser;LogIn",
-			"get;/user/{id};HomeUser",
+			"get;/homeinfected/user/{id};HomeUser",
+			"get;/homeinfected/user/declareinfectionhome/{id};DeclareInfectionHome",
+			"post;/homeinfected/user/declareinfectionhome/postInfectionDate/{id};DeclareInfection",
 		},
 	}
 }
