@@ -2,6 +2,6 @@ var pathArray = window.location.pathname.split('/');
 userID = pathArray[pathArray.length - 1];
 console.log(userID)
 
-var elem = document.getElementById("declareinfectionhome");
+var elem = document.getElementById("declareinfection");
 
-elem.href = "declareinfectionhome/" + userID;
+elem.href = "declareinfection/" + userID;

@@ -18,7 +18,7 @@ type FindInfectedController struct {
 
 // Home login home page
 func (t *FindInfectedController) Home() {
-	t.Ctx.Template = "homeinfected"
+	t.Ctx.Template = "homelogin"
 	t.HTML(http.StatusOK)
 }
 
@@ -31,8 +31,8 @@ func (t *FindInfectedController) LogIn() {
 	t.Ctx.Redirect(pathRedirect, http.StatusFound)
 }
 
-//HomeUser home page of a specific client
-func (t *FindInfectedController) HomeUser() {
+//UserPage home page of a specific client
+func (t *FindInfectedController) UserPage() {
 	strclientID := t.Ctx.Params["id"]
 	clientID, err := strconv.Atoi(strclientID)
 	if err != nil {
@@ -45,13 +45,13 @@ func (t *FindInfectedController) HomeUser() {
 	clients := []*models.Clients{}
 	t.Ctx.DB.Where("idclient = ?", clientID).Find(&clients)
 	t.Ctx.Data["List"] = clients
-	t.Ctx.Template = "homeuser"
+	t.Ctx.Template = "userpage"
 	t.HTML(http.StatusOK)
 }
 
 //DeclareInfectionHome GET -> declare infection date of a specific client
 func (t *FindInfectedController) DeclareInfectionHome() {
-	t.Ctx.Template = "declareinfectionhome"
+	t.Ctx.Template = "declareinfection"
 	t.HTML(http.StatusOK)
 }
 
@@ -73,8 +73,6 @@ func (t *FindInfectedController) DeclareInfection() {
 	date := req.FormValue("testing_date")
 	dateParsed, err := time.Parse("2006-01-02", date)
 
-	// if err := decoder.Decode(infected, req.PostForm); err != nil {
-	// decoder.IgnoreUnknownKeys(true)
 	if err != nil {
 		t.Ctx.Data["Message"] = err.Error()
 		t.Ctx.Template = "error"
@@ -96,9 +94,9 @@ func NewFindInfectedControllerController() controller.Controller {
 		Routes: []string{
 			"get;/homeinfected;Home",
 			"post;/finduser;LogIn",
-			"get;/homeinfected/user/{id};HomeUser",
-			"get;/homeinfected/user/declareinfectionhome/{id};DeclareInfectionHome",
-			"post;/homeinfected/user/declareinfectionhome/postInfectionDate/{id};DeclareInfection",
+			"get;/homeinfected/user/{id};UserPage",
+			"get;/homeinfected/user/declareinfection/{id};DeclareInfectionHome",
+			"post;/homeinfected/user/declareinfection/postInfectionDate/{id};DeclareInfection",
 		},
 	}
 }
