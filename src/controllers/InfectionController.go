@@ -1,7 +1,9 @@
 package controllers
 
 import (
+	"encoding/json"
 	"fmt"
+	"log"
 	"models"
 	"net/http"
 	"strconv"
@@ -87,6 +89,47 @@ func (t *FindInfectedController) DeclareInfection() {
 	t.Ctx.Redirect(pathRedirect, http.StatusFound)
 }
 
+//UserCoordinates of a specific client
+func (t *FindInfectedController) UserCoordinates() {
+	req := t.Ctx.Request()
+	decoder := json.NewDecoder(req.Body)
+
+	// corpo, err := ioutil.ReadAll(req.Body)
+	// if err != nil {
+	// 	fmt.Println("[main] erro ao ler servidor. Erro: ",
+	// 		err.Error())
+	// 	return
+	// }
+	// fmt.Println(" ")
+
+	type Data struct {
+		Name    string `json:"name"`
+		Address string `json:"address"`
+	}
+
+	type Position struct {
+		User int     `json:"user"`
+		Lati float32 `json:"lati"`
+		Long float32 `json:"long"`
+	}
+
+	data := Position{}
+	err := decoder.Decode(&data)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	// err = json.Unmarshal(corpo, &data)
+	fmt.Printf("%v", data)
+
+	// lati := req.FormValue("latitude")
+	// long := req.FormValue("longitude")
+	// fmt.Println("Latitude = ", lati, "; longitude = ", long)
+
+	// pathRedirect := fmt.Sprintf("/homeinfected/user/%s", strclientID)
+	// t.Ctx.Redirect(pathRedirect, http.StatusFound)
+}
+
 //NewFindInfectedControllerController returns a new FindInfectedController
 // (get or post); url ; method
 func NewFindInfectedControllerController() controller.Controller {
@@ -97,6 +140,7 @@ func NewFindInfectedControllerController() controller.Controller {
 			"get;/homeinfected/user/{id};UserPage",
 			"get;/homeinfected/user/declareinfection/{id};DeclareInfectionHome",
 			"post;/homeinfected/user/declareinfection/postInfectionDate/{id};DeclareInfection",
+			"post;/usercoordinates;UserCoordinates",
 		},
 	}
 }
