@@ -21,6 +21,7 @@ func main() {
 	// Register Models
 	app.Model.Register(&models.Users{})
 	app.Model.Register(&models.Clients{})
+	app.Model.Register(&models.MonitorClients{})
 	app.Model.Register(&models.Infecteds{})
 
 	// CReate Models tables if they dont exist yet

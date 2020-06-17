@@ -1,0 +1,30 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register user</title>
+</head>
+
+<body>
+    <form method="post" action="/postregisteruser">
+        <table>
+            <tr>
+                <th>
+                    Register User
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    <input name="Name">
+                </td>
+                <td>
+                    <button type="submit">Register</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <tr>{{$.Message}}</tr>
+</body>
+
+</html>

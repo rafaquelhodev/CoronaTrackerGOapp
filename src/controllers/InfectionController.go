@@ -12,6 +12,8 @@ import (
 	"github.com/gernest/utron/controller"
 )
 
+var userExist = true
+
 // FindInfectedController is a controller for find infected people
 type FindInfectedController struct {
 	controller.BaseController
@@ -20,8 +22,37 @@ type FindInfectedController struct {
 
 // Home login home page
 func (t *FindInfectedController) Home() {
+
+	if !userExist {
+		t.Ctx.Data["UserExist"] = "User not found."
+	}
+
 	t.Ctx.Template = "homelogin"
 	t.HTML(http.StatusOK)
+}
+
+// GetSignInUser login home page
+func (t *FindInfectedController) GetSignInUser() {
+	t.Ctx.Template = "registeruser"
+	t.HTML(http.StatusOK)
+}
+
+// PostSignInUser login home page
+func (t *FindInfectedController) PostSignInUser() {
+	client := &models.Clients{}
+	req := t.Ctx.Request()
+	_ = req.ParseForm()
+	if err := decoder.Decode(client, req.PostForm); err != nil {
+		t.Ctx.Data["Message"] = err.Error()
+		t.Ctx.Template = "error"
+		t.HTML(http.StatusInternalServerError)
+		return
+	}
+
+	t.Ctx.DB.Create(client)
+
+	pathRedirect := fmt.Sprintf("/homeinfected/user/%d", client.ID)
+	t.Ctx.Redirect(pathRedirect, http.StatusFound)
 }
 
 //LogIn a specific client
@@ -35,6 +66,32 @@ func (t *FindInfectedController) LogIn() {
 
 //UserPage home page of a specific client
 func (t *FindInfectedController) UserPage() {
+	strID := t.Ctx.Params["id"]
+	id, err := strconv.Atoi(strID)
+	if err != nil {
+		t.Ctx.Data["Message"] = err.Error()
+		t.Ctx.Template = "error"
+		t.HTML(http.StatusInternalServerError)
+		return
+	}
+
+	clients := []*models.Clients{}
+	t.Ctx.DB.Where("id = ?", id).Find(&clients)
+
+	if len(clients) == 0 {
+		userExist = false
+		t.Ctx.Redirect("/homeinfected", http.StatusFound)
+		return
+	}
+	userExist = true
+
+	t.Ctx.Data["ClientData"] = clients
+	t.Ctx.Template = "userpage"
+	t.HTML(http.StatusOK)
+}
+
+//UserPageTrackingData show the tracked positions of a given client
+func (t *FindInfectedController) UserPageTrackingData() {
 	strclientID := t.Ctx.Params["id"]
 	clientID, err := strconv.Atoi(strclientID)
 	if err != nil {
@@ -44,10 +101,11 @@ func (t *FindInfectedController) UserPage() {
 		return
 	}
 
-	clients := []*models.Clients{}
-	t.Ctx.DB.Where("idclient = ?", clientID).Find(&clients)
-	t.Ctx.Data["List"] = clients
-	t.Ctx.Template = "userpage"
+	monitoredClient := []*models.MonitorClients{}
+	t.Ctx.DB.Where("idclient = ?", clientID).Find(&monitoredClient)
+
+	t.Ctx.Data["List"] = monitoredClient
+	t.Ctx.Template = "userpageTrackingData"
 	t.HTML(http.StatusOK)
 }
 
@@ -92,43 +150,32 @@ func (t *FindInfectedController) DeclareInfection() {
 //UserCoordinates of a specific client
 func (t *FindInfectedController) UserCoordinates() {
 	req := t.Ctx.Request()
-	decoder := json.NewDecoder(req.Body)
-
-	// corpo, err := ioutil.ReadAll(req.Body)
-	// if err != nil {
-	// 	fmt.Println("[main] erro ao ler servidor. Erro: ",
-	// 		err.Error())
-	// 	return
-	// }
-	// fmt.Println(" ")
-
-	type Data struct {
-		Name    string `json:"name"`
-		Address string `json:"address"`
-	}
 
 	type Position struct {
-		User int     `json:"user"`
-		Lati float32 `json:"lati"`
-		Long float32 `json:"long"`
+		UserID    int     `json:"user"`
+		Latitude  float32 `json:"lati"`
+		Longitude float32 `json:"long"`
 	}
 
 	data := Position{}
+
+	decoder := json.NewDecoder(req.Body)
 	err := decoder.Decode(&data)
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	// err = json.Unmarshal(corpo, &data)
-	fmt.Printf("%v", data)
+	monitoredClient := &models.MonitorClients{}
+	monitoredClient.IDclient = data.UserID
+	monitoredClient.Latitude = data.Latitude
+	monitoredClient.Longitude = data.Longitude
+	monitoredClient.Time = time.Now()
 
-	// lati := req.FormValue("latitude")
-	// long := req.FormValue("longitude")
-	// fmt.Println("Latitude = ", lati, "; longitude = ", long)
-
-	// pathRedirect := fmt.Sprintf("/homeinfected/user/%s", strclientID)
-	// t.Ctx.Redirect(pathRedirect, http.StatusFound)
+	t.Ctx.DB.Create(monitoredClient)
 }
+
+// "get;/registeruser;GetSignInUser",
+// "post;/postregisteruser;PostSignInUser",
 
 //NewFindInfectedControllerController returns a new FindInfectedController
 // (get or post); url ; method
@@ -136,8 +183,11 @@ func NewFindInfectedControllerController() controller.Controller {
 	return &FindInfectedController{
 		Routes: []string{
 			"get;/homeinfected;Home",
+			"get;/registeruser;GetSignInUser",
+			"post;/postregisteruser;PostSignInUser",
 			"post;/finduser;LogIn",
 			"get;/homeinfected/user/{id};UserPage",
+			"get;/homeinfected/user/trackposition/{id};UserPageTrackingData",
 			"get;/homeinfected/user/declareinfection/{id};DeclareInfectionHome",
 			"post;/homeinfected/user/declareinfection/postInfectionDate/{id};DeclareInfection",
 			"post;/usercoordinates;UserCoordinates",

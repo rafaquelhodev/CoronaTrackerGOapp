@@ -4,11 +4,6 @@ var positionJson = {
     long: 1.0
 }
 
-var person = {
-    name: "rafael",
-    address: "sjc"
-}
-
 var pathArray = window.location.pathname.split('/');
 userID = pathArray[pathArray.length - 1];
 

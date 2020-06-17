@@ -1,7 +1,7 @@
-var pathArray = window.location.pathname.split('/');
-userID = pathArray[pathArray.length - 1];
-console.log(userID)
+var hiddenInputClient = document.getElementById("IDclient");
 
 var elem = document.getElementById("declareinfection");
+elem.href = "declareinfection/" + hiddenInputClient.value;
 
-elem.href = "declareinfection/" + userID;
+var buttonTracker = document.getElementById("trackposition");
+buttonTracker.href = "trackposition/" + hiddenInputClient.value;
