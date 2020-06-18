@@ -1,45 +1,75 @@
 <!DOCTYPE html>
-<html>
-    <head lang="en">
-        <meta charset="UTF-8">
-        <title>Find infected by Corona</title>
-        <link href="/static/todo.css" rel="stylesheet">
-    </head>
-    <body>
-        <table>
-            <tr>
-                <th>
-                    User data
-                </th>
-            </tr>
-            {{range $k,$v:=.List}}
-                <tr>
-                    <td>
-                        {{$v.ID}}
-                    </td>
-                    <td>
-                        {{$v.Time}}
-                    </td>
-                    <td>
-                        {{$v.Day}}
-                    </td>
-                    <td>
-                        {{$v.City}}
-                    </td>
-                    <td>
-                        {{$v.Xcoord}}
-                    </td>
-                    <td>
-                        {{$v.Ycoord}}
-                    </td>
-                </tr>
-            {{end}}
-        </table>
-        <td>
-            <a id="declareinfection" href="/declareinfection" class="button">Declare infection</a>
-        </td>
-    </body>
 
-    <script src="/static/scripts/userpage.js"></script>
+{{$Client := index ($.ClientData) 0}}
+
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Find infected by Corona</title>
+    <link href="/static/todo.css" rel="stylesheet">
+</head>
+
+<body>
+    <table>
+        <tr>
+            <th>
+                User data ID =
+                {{$Client.ID}}
+                <input id="IDclient" type="hidden" value="{{$Client.ID}}">
+            </th>
+
+        <tr>
+            <td>
+                Name:
+            </td>
+            <td>
+                {{$Client.Name}}
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Date of creation:
+            </td>
+            <td>
+                {{$Client.CreatedAt}}
+            </td>
+        </tr>
+
+        </tr>
+    </table>
+    <td>
+        <a id="declareinfection" href="/declareinfection" class="button">Declare infection</a>
+    </td>
+
+    <div class="TrackPosition">
+        <a id="trackposition" href="/trackposition" class="button">See my position</a>
+    </div>
+
+    <div class="form-group">
+        <form method="post" action="/usercoordinates">
+            <td>Latitude</td>
+            <input id="latitude" name="latitude" type="text" />
+            <br>
+            <td>Longitude</td>
+            <input id="longitude" name="longitude" type="text" />
+
+            <td>
+                <button type="submit">Submit your position</button>
+            </td>
+        </form>
+    </div>
+</body>
+
+
+
+<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9/themes/base/jquery-ui.css" rel="stylesheet"
+    type="text/css" />
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+
+<script src="/static/scripts/userpage.js"></script>
+<script src="/static/scripts/ReadUserPosition.js"></script>
 
 </html>
