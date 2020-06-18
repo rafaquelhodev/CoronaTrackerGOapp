@@ -1,0 +1,22 @@
+#AdminFunctions {
+    display: flex;
+    flex-direction: column;
+}
+
+#AdminFunctions a {
+    width: 100%;
+    max-width: 360px;
+    height: 72px;
+
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 10px;
+
+    color: white;
+    font-weight: 700;
+
+    background: var(--primary-color);    
+}
