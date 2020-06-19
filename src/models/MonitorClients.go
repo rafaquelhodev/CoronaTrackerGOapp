@@ -2,7 +2,7 @@ package models
 
 import "time"
 
-// Clients data of a person
+// MonitorClients data of a client
 type MonitorClients struct {
 	ID        int       `json:"ID" schema: "ID"`
 	IDclient  int       `json:"IDclient" schema: "IDclient"`
@@ -13,3 +13,5 @@ type MonitorClients struct {
 	Day       string    `json:"Day" schema:"Day"`
 	Name      string    `json:"Name" schema:"Name"`
 }
+
+func (client *MonitorClients) ClientLocationEarth(latitude float32, longitude float32, deltaLatitude float32, deltaLongitude float32)
