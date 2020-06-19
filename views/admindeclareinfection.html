@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoronaGO: admin user page</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Ubuntu:wght@700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/static/styles/main.css">
+    <link rel="stylesheet" href="/static/styles/admindeclareinfection.css">
+</head>
+
+<body>
+    <main>
+        <div id="informatioInfected">
+            <h2>Insert information about an infected person</h2>
+            <form method="post" id="adminFormInfected" action="/admin/adminpostinfected">
+
+                <label for="name">Person ID</label>
+                <input name="IDclient" type="number" required="required">
+
+                <label for="name">Infection date</label>
+                <input name="TestingDate" type="date" required="required">
+
+                <button type="submit">Submit</button>
+
+            </form>
+        </div>
+    </main>
+</body>
+
+</html>

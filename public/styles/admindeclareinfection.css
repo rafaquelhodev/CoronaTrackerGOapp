@@ -1,0 +1,53 @@
+#informatioInfected {
+    display: flex;
+    flex-direction: column;
+}
+
+#informatioInfected #adminFormInfected{
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+
+    width: 100%;
+    max-width: 300px;
+}
+
+#informatioInfected #adminFormInfected {
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border-color: var(--border-color);
+}
+
+form label{
+    font-size: 14px;
+    margin-top: 8px;
+    margin-bottom: 6px;
+    color: var(--title-color);
+}
+
+form input{
+    border-radius: 5px;
+    border-color: var(--border-color);
+}
+
+form button{
+    width: 260px;
+    height: 56px;
+    background-color: var(--primary-color);
+    border-radius: 8px;
+
+    color:white;
+    font-weight: bold;
+    font-size: 16px;
+    border: 0;
+
+    margin-top: 40px;
+
+    transition: backgroud-color 400ms;
+
+    cursor: pointer;
+}
+
+form button:hover{
+    background-color: var(--botton-hover-color);
+}

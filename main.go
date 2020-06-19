@@ -30,6 +30,7 @@ func main() {
 	// Register Controller
 	app.AddController(controllers.NewMediumController)
 	app.AddController(controllers.NewFindInfectedControllerController)
+	app.AddController(controllers.NewAdminController)
 
 	// Start the server
 	port := fmt.Sprintf(":%d", app.Config.Port)

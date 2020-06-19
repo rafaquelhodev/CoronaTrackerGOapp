@@ -1,0 +1,19 @@
+:root {
+    --title-color: #322153;
+    --primary-color: #34cb79;
+    --botton-hover-color:#2fb86e;
+    --border-color: #5989c8;
+}
+
+html {
+    font-family: 'Roboto', sans-serif;
+}
+
+a {
+    text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Ubuntu', sans-serif;
+    color: var(--title-color);
+}
