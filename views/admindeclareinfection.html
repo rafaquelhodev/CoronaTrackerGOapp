@@ -16,13 +16,13 @@
     <main>
         <div id="informatioInfected">
             <h2>Insert information about an infected person</h2>
-            <form action="post" id="adminFormInfected" action="/adminpostinfected">
+            <form method="post" id="adminFormInfected" action="/admin/adminpostinfected">
 
                 <label for="name">Person ID</label>
-                <input name="Person ID" type="number" required="required">
+                <input name="IDclient" type="number" required="required">
 
                 <label for="name">Infection date</label>
-                <input name="testing_date" type="date" required="required">
+                <input name="TestingDate" type="date" required="required">
 
                 <button type="submit">Submit</button>
 
