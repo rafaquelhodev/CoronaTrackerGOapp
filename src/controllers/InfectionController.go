@@ -3,6 +3,7 @@ package controllers
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"models"
 	"net/http"
@@ -151,13 +152,7 @@ func (t *FindInfectedController) DeclareInfection() {
 func (t *FindInfectedController) UserCoordinates() {
 	req := t.Ctx.Request()
 
-	type Position struct {
-		UserID    int     `json:"user"`
-		Latitude  float32 `json:"lati"`
-		Longitude float32 `json:"long"`
-	}
-
-	data := Position{}
+	data := models.Position{}
 
 	decoder := json.NewDecoder(req.Body)
 	err := decoder.Decode(&data)
@@ -171,11 +166,21 @@ func (t *FindInfectedController) UserCoordinates() {
 	monitoredClient.Longitude = data.Longitude
 	monitoredClient.Time = time.Now()
 
+	file, err := ioutil.ReadFile("mapconfig/mapsettings.json")
+	if err != nil {
+		fmt.Println("Error reading map settings. Error: ", err.Error())
+	}
+
+	mapSettings := models.Maps{}
+	err = json.Unmarshal([]byte(file), &mapSettings)
+	if err != nil {
+		fmt.Println("Error unmarshalling map settings. Error: ", err.Error())
+	}
+
+	monitoredClient.GetAreaNumberInMap(data, mapSettings)
+
 	t.Ctx.DB.Create(monitoredClient)
 }
-
-// "get;/registeruser;GetSignInUser",
-// "post;/postregisteruser;PostSignInUser",
 
 //NewFindInfectedControllerController returns a new FindInfectedController
 // (get or post); url ; method
