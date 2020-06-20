@@ -1,0 +1,10 @@
+{
+    "MapLatitudeMax": 90.0,
+    "MapLatitudeMin": -90.0,
+    "MapLongitudeMax": 180.0,
+    "MapLongitudeMin": -180.0,
+    "MapDivision": {
+        "LengthLatitude": 10.0,
+        "LengthLongitude": 20.0
+    }
+}
