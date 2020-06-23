@@ -18,5 +18,11 @@
     color: white;
     font-weight: 700;
 
-    background: var(--primary-color);    
+    background-color: var(--primary-color);
+    transition: backgroud-color 400ms;
+    cursor: pointer;    
+}
+
+#AdminFunctions a:hover{
+    background-color: var(--botton-hover-color);
 }

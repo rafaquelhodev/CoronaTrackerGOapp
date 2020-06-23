@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Find infected by Corona</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Ubuntu:wght@700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/static/styles/main.css">
+</head>
+
+<body>
+    <table>
+        <tr>
+            <th>
+                Infecteds
+            </th>
+        <tr>
+            <td>Client ID</td>
+            <td>Initial spread date</td>
+            <td>Final spread date</td>
+        </tr>
+
+        </tr>
+        {{range $k,$v:=.Infecteds}}
+        <tr>
+            <td>
+                {{$k}}
+            </td>
+            <td>
+                {{index ($v.InfectionPeriod) 0}}
+            </td>
+            <td>
+                {{index ($v.InfectionPeriod) 1}}
+            </td>
+        </tr>
+        {{end}}
+    </table>
+</body>
+
+</html>
