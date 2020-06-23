@@ -72,10 +72,6 @@ func (t *AdminController) CommonAreaDate(initialSpreadDate time.Time, finalSprea
 		args = append(args, idnow)
 	}
 
-	// for _, idnow := range infectedAnalysed {
-	// 	args = append(args, idnow)
-	// }
-
 	for cityNow := range mapAreasInfected {
 		args = append(args, cityNow)
 	}
