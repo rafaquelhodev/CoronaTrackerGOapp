@@ -35,3 +35,19 @@ func (client *MonitorClients) GetAreaNumberInMap(clientPosition Position, mapEar
 
 	(*client).LocationBlock = (i-1)*jmax + j
 }
+
+// MonitorClientsSlice is a slice of MonitorClients struct
+type MonitorClientsSlice []MonitorClients
+
+// Implementing method to sort an array of MonitorClients in relation to time
+func (p MonitorClientsSlice) Len() int {
+	return len(p)
+}
+
+func (p MonitorClientsSlice) Less(i, j int) bool {
+	return p[i].Time.Before(p[j].Time)
+}
+
+func (p MonitorClientsSlice) Swap(i, j int) {
+	p[i], p[j] = p[j], p[i]
+}

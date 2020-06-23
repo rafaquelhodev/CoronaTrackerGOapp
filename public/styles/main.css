@@ -17,3 +17,16 @@ h1, h2, h3, h4, h5, h6 {
     font-family: 'Ubuntu', sans-serif;
     color: var(--title-color);
 }
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+tr {
+    border-bottom: 1px solid var(--title-color);
+}
+
+th {
+    text-align: left;    
+}
